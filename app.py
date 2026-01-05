@@ -15,12 +15,12 @@ from basicsr.utils.download_util import load_file_from_url
 def get_configs(model, colab):
     if model == 'SinSR':
         if colab:
-            configs = OmegaConf.load('/content/SinSR/configs/SinSR.yaml')
+            configs = OmegaConf.load('./configs/SinSR.yaml')
         else:
             configs = OmegaConf.load('./configs/SinSR.yaml')
     elif model == 'ResShift':
         if colab:
-            configs = OmegaConf.load('/content/SinSR/configs/realsr_swinunet_realesrgan256.yaml')
+            configs = OmegaConf.load('./configs/realsr_swinunet_realesrgan256.yaml')
         else:
             configs = OmegaConf.load('./configs/realsr_swinunet_realesrgan256.yaml')
         task = "realsrx4"
@@ -30,7 +30,7 @@ def get_configs(model, colab):
     if not ckpt_dir.exists():
         ckpt_dir.mkdir()
     if model == 'SinSR':
-        ckpt_path = ckpt_dir / f'SinSR_v1.pth'
+        ckpt_path = "./experiments/2025-12-10-12-55/ema_ckpts/ema_model_500000.pth"
         if not ckpt_path.exists():
             load_file_from_url(
                 url=f"https://github.com/wyf0912/SinSR/releases/download/v1.0/{ckpt_path.name}",
@@ -128,9 +128,9 @@ if __name__ == "__main__":
 
     if args.colab:
         examples=[
-            ['/content/SinSR/testdata/RealSet65/dog2.png', True, "SinSR", 12345],
-            ['/content/SinSR/testdata/RealSet65/bears.jpg', True, "SinSR", 12345],
-            ['/content/SinSR/testdata/RealSet65/oldphoto6.png', True, "SinSR", 12345],
+            ['./testdata/RealSet65/dog2.png', True, "SinSR", 12345],
+            ['./testdata/RealSet65/bears.jpg', True, "SinSR", 12345],
+            ['./testdata/RealSet65/oldphoto6.png', True, "SinSR", 12345],
           ]
     else:
         examples=[

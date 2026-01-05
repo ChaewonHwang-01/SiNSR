@@ -104,38 +104,39 @@ class RealESRGANDataset(data.Dataset):
         if self.file_client is None:
             self.file_client = FileClient(self.io_backend_opt.pop('type'), **self.io_backend_opt)
 
-        # -------------------------------- Load gt images -------------------------------- #
-        # Shape: (h, w, c); channel order: BGR; image range: [0, 1], float32.
         gt_path = self.paths[index]
-        # avoid errors caused by high latency in reading files
         retry = 3
+        img_gt = None  # ✅ 초기화
+
         while retry > 0:
             try:
                 img_bytes = self.file_client.get(gt_path, 'gt')
                 img_gt = imfrombytes(img_bytes, float32=True)
-            # except (IOError, OSError, AttributeError) as e:
-            except:
-                # logger = get_root_logger()
-                # logger.warn(f'File client error: {e}, remaining retry times: {retry - 1}')
-                # change another file to read
-                index = random.randint(0, self.__len__())
+                if img_gt is None:
+                    raise ValueError("Failed to decode image")
+                break
+            except Exception as e:
+                print(f"[Warning] Failed to read {gt_path} (retry {retry-1}): {e}")
+                index = random.randint(0, len(self.paths) - 1)
                 gt_path = self.paths[index]
-                time.sleep(1)  # sleep 1s for occasional server congestion
-            # else:
-                # break
+                time.sleep(0.5)
             finally:
                 retry -= 1
-        if self.mode == 'testing':
-            if not hasattr(self, 'test_aug'):
-                self.test_aug = albumentations.Compose([
-                    albumentations.SmallestMaxSize(max_size=self.opt['gt_size']),
-                    albumentations.CenterCrop(self.opt['gt_size'], self.opt['gt_size']),
-                    ])
-            img_gt = self.test_aug(image=img_gt)['image']
-        elif self.mode == 'training':
-            pass
-        else:
-            raise ValueError(f'Unexpected value {self.mode} for mode parameter')
+
+        if img_gt is None:
+            print(f"[Error] Could not load image for index {index}, using blank fallback.")
+            img_gt = np.zeros((self.opt['gt_size'], self.opt['gt_size'], 3), dtype=np.float32)
+            if self.mode == 'testing':
+                if not hasattr(self, 'test_aug'):
+                    self.test_aug = albumentations.Compose([
+                        albumentations.SmallestMaxSize(max_size=self.opt['gt_size']),
+                        albumentations.CenterCrop(self.opt['gt_size'], self.opt['gt_size']),
+                        ])
+                img_gt = self.test_aug(image=img_gt)['image']
+            elif self.mode == 'training':
+                pass
+            else:
+                raise ValueError(f'Unexpected value {self.mode} for mode parameter')
 
         if self.mode == 'training':
             # -------------------- Do augmentation for training: flip, rotation -------------------- #

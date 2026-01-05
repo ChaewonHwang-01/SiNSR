@@ -1,3 +1,4 @@
+resume: null
 model:
   target: models.unet.UNetModelSwin
   ckpt_path: ~
@@ -96,8 +97,8 @@ data:
     params:
       dir_paths: []
       txt_file_path: [
-                      'traindata/train.txt', 
-                      'traindata/ffhq256.txt',
+                      #'traindata/train.txt', 
+                      'traindata/train_resized_paths.txt',
                      ] 
       im_exts: ['JPEG', ]
       io_backend:
@@ -144,13 +145,13 @@ train:
   # xT_cov_loss: 0.1
 
   lr: 5e-5
-  batch: [64, 8]   # batchsize for training and validation
+  batch: [8, 4]   # batchsize for training and validation, 원래 [64, 8]
   use_fp16: False
-  microbatch: 64 # 16
+  microbatch: 4 # 16, 원래 64
   seed: 123456
   global_seeding: False
   prefetch_factor:  4
-  num_workers: 16
+  num_workers: 16 #4
   ema_rate: 0.999
   iterations: 500000
   milestones: [5000, 500000]
@@ -162,3 +163,5 @@ train:
   log_freq: [200, 5000, 1] #[training loss, training images, val images]
   save_images: True  # save the images of tensorboard logging
   use_ema_val: True
+
+save_dir: ./experiments

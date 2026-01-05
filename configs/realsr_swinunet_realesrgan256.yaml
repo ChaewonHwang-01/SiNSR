@@ -42,7 +42,7 @@ diffusion:
 
 autoencoder:
   target: ldm.models.autoencoder.VQModelTorch
-  ckpt_path: weights/autoencoder/autoencoder_vq_f4.pth
+  ckpt_path: weights/autoencoder_vq_f4.pth
   use_fp16: True
   params:
     embed_dim: 3
@@ -95,8 +95,9 @@ data:
     params:
       dir_paths: []
       txt_file_path: [
-                      'traindata/train.txt', 
-                      'traindata/ffhq256.txt',
+                      #'traindata/train.txt', 
+                      #'traindata/ffhq256.txt',
+                      'traindata/traindataset3.txt'
                      ] 
       im_exts: ['JPEG', ]
       io_backend:

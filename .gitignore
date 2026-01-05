@@ -1,18 +1,28 @@
+# datasets / large files
+dataset/
+datasets/
+data/
+traindata/train_resized/
+*.zip
+*.tar
+*.tar.gz
+*.7z
+
+# experiment outputs / logs
+experiments/
+saved_logs/
+sr_outputs/
+sr_outputs*/
+test_results*/
+*.log
+
+# cache / temp
+__pycache__/
 *.pyc
-testdata/*
-assets/*
+*.pyo
+.ipynb_checkpoints/
 
-results/*
-logs/*
-weights/*
-
-*.jpg
-
-*.pdf
-.ipynb_checkpoints/*
-flagged/*
-restored_output/*
-!assets/*
-!testdata/RealSet65
-!testdata/RealSR
-!testdata/RealSet128
+# env
+.venv/
+venv/
+.env
