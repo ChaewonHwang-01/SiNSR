@@ -20,7 +20,7 @@ Due to limited GPU resources, an initial experiment was performed
 to confirm the core behavior of the SinSR model.
 The training setup was intentionally simplified by reducing the dataset size
 to approximately 5,000 images, lowering
-the image resolution to 128, setting the batch size to 1, and 16,000 training iterations.
+the image resolution to 128, setting the batch size to 1, and 20,000 training iterations.
 This stage aimed to verify that the model functions as described in the paper
 before scaling up to the full experimental setting.
 
@@ -48,3 +48,43 @@ approximately 5,000 training images).
 | LR Image | SinSR (1-step) | ResShift (1-step) | ResShift (15-step) |
 |---------|----------------|-------------------|--------------------|
 | <a href="assets/stage1/lr_dogs.png"><img src="assets/stage1/lr_dogs.png" width="240"/></a> | <a href="assets/stage1/single_sinsr_dogs.png"><img src="assets/stage1/single_sinsr_dogs.png" width="240"/></a> | <a href="assets/stage1/single_resshift_dogs.png"><img src="assets/stage1/single_resshift_dogs.png" width="240"/></a> | <a href="assets/stage1/15steps_resshift_dogs.png"><img src="assets/stage1/15steps_resshift_dogs.png" width="240"/></a> |
+
+**Observations**
+
+From the reduced-scale experiment, we make the following observations:
+
+- The student model (SinSR, 1-step) successfully learns a deterministic one-step
+  mapping from the noisy latent to the high-resolution image, producing visually
+  plausible results despite the simplified training setup.
+- Compared to the 1-step ResShift result, SinSR exhibits improved structural
+  consistency and sharper object boundaries.
+- While the 15-step ResShift teacher model still achieves the highest visual
+  quality, the gap between the student and teacher outputs is reasonably small,
+  confirming that the core functionality of SinSR is preserved even under
+  limited computational resources.
+
+These results validate that the SiNSR training pipeline is correctly implemented
+and behaves as expected before scaling up to the full experimental setting.
+
+---
+
+## Loss Weight Sensitivity Analysis (Stage 1)
+
+In the original SiNSR paper, the training objective is defined as a weighted sum of
+three loss terms: inversion loss (L_inverse), distillation loss (L_distill), and
+ground-truth consistency loss (L_gt), with the default weight ratio set to 1:1:1.
+
+During the reduced-scale experiment, a significant imbalance in the magnitudes of
+the individual loss terms was observed. In particular, the inversion loss tended to
+dominate the total loss, causing the optimization process to focus excessively on
+minimizing inversion error rather than improving reconstruction fidelity with
+respect to the ground truth.
+
+To analyze the impact of loss weighting, additional experiments were conducted using
+different loss ratios while keeping all other training conditions fixed.
+
+### Case 1: Original paper setting (Loss ratio = 1 : 1 : 1)
+
+In this setting, the loss weights were configured to follow the original paper,
+with equal contributions from the inversion loss, distillation loss, and
+ground-truth consistency loss.
