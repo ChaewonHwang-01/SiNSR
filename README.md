@@ -88,3 +88,42 @@ different loss ratios while keeping all other training conditions fixed.
 In this setting, the loss weights were configured to follow the original paper,
 with equal contributions from the inversion loss, distillation loss, and
 ground-truth consistency loss.
+
+<table>
+<tr>
+<th>Image</th><th>Student</th><th>Teacher</th><th>PSNR ↑</th><th>LPIPS ↓</th><th>CLIP ↑</th><th>MUSIQ ↑</th>
+</tr>
+
+<tr>
+<td align="center">1</td>
+<td align="center"><img src="assets/stage1/1_1_1/student_result/1.png" width="250"></td>
+<td align="center"><img src="assets/stage1/1_1_1/teacher_result/1.png" width="250"></td>
+<td align="center">22.99</td>
+<td align="center">0.488</td>
+<td align="center">0.320</td>
+<td align="center">48.18</td>
+</tr>
+
+<tr>
+<td align="center">2</td>
+<td align="center"><img src="assets/stage1/1_1_1/student_result/2.png" width="250"></td>
+<td align="center"><img src="assets/stage1/1_1_1/teacher_result/2.png" width="250"></td>
+<td align="center">21.68</td>
+<td align="center">0.534</td>
+<td align="center">0.622</td>
+<td align="center">57.66</td>
+</tr>
+
+<tr>
+<td align="center">3</td>
+<td align="center"><img src="assets/stage1/1_1_1/student_result/3.png" width="250"></td>
+<td align="center"><img src="assets/stage1/1_1_1/teacher_result/3.png" width="250"></td>
+<td align="center">24.56</td>
+<td align="center">0.553</td>
+<td align="center">0.469</td>
+<td align="center">60.02</td>
+</tr>
+</table>
+
+> **Note:**  
+> All quantitative metrics (PSNR, LPIPS, CLIP, MUSIQ) are computed **only on the student model outputs**.  
