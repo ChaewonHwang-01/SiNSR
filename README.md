@@ -173,3 +173,6 @@ By increasing the weight of the ground-truth consistency loss, the training obje
 <td align="center">56.47</td>
 </tr>
 </table>
+
+> The qualitative differences between the 1:1:1 and 1:1:2 settings are subtle under the reduced-scale training setup,  
+> and the adjustment of loss weights primarily serves to mitigate inversion-dominated optimization and stabilize the training objective.
