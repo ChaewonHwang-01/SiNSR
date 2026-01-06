@@ -11,7 +11,7 @@ The goal of this project is to reproduce the SinSR model and verify its behavior
 under both limited computational resources and the original experimental settings
 described in the paper.
 
-## Experimental Setup and Reproduction Strategy
+## 🛠️ Experimental Setup and Reproduction Strategy
 To validate the functionality and behavior of the SinSR model, 
 experiments were conducted in two stages.
 
@@ -32,7 +32,7 @@ image resolution of 256, batch size of 4, and 500,000 training iterations.
 This stage focuses on reproducing the quantitative and qualitative results
 reported in the original SinSR paper.
 
-## Results: Stage 1 – Reduced-scale Verification
+## 📈 Results: Stage 1 – Reduced-scale Verification
 In the reduced-scale setting, the objective was not to fully reproduce
 the quantitative results of the paper, but to verify the core behavior
 of the SinSR model under constrained computational resources.
@@ -235,3 +235,5 @@ practically optimal setting.
 <td align="center">55.18</td>
 </tr>
 </table>
+
+> The results suggest that extreme loss reweighting does not translate into measurable performance gains, highlighting the limitation of loss-scale tuning under constrained training conditions.
