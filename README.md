@@ -237,3 +237,35 @@ practically optimal setting.
 </table>
 
 > The results suggest that extreme loss reweighting does not translate into measurable performance gains, highlighting the limitation of loss-scale tuning under constrained training conditions.
+
+
+---
+
+## 🔬 Stage 2: Full-scale Reproduction (Original Paper Setting)
+
+After validating the model behavior under reduced-scale conditions in **Stage 1**,  
+the experiments were extended to a **full-scale reproduction setting** that closely follows the configuration reported in the original SiNSR paper.
+
+This stage focuses on verifying whether the observed training behavior and conclusions from Stage 1 remain consistent when scaling up the dataset size, image resolution, and training iterations.
+
+### Experimental Setup
+
+- **Image resolution:** 256 × 256  
+- **Training images:** ~70,000  
+- **Batch size:** 4  
+- **Training iterations:** 500,000  
+- **GPUs:** 2 × NVIDIA RTX A5000
+
+### Execution Structure
+
+To efficiently support teacher–student training, the computation was distributed as follows:
+
+- **GPU 0:** Teacher model (ResShift, diffusion-based multi-step sampling)  
+- **GPU 1:** Student model (SinSR, single-step diffusion)  
+- **Metric evaluation (PSNR, LPIPS, CLIP, MUSIQ):** CPU-only
+
+This configuration ensures stable parallel execution of the teacher and student models while avoiding GPU memory contention during metric computation.
+
+### Objective
+
+The primary objective of Stage 2 is to reproduce the **quantitative metrics** and **qualitative behaviors** reported in the original SiNSR paper under full-scale training conditions, and to jointly analyze and validate the potential for performance improvement and model lightweighting.
