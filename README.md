@@ -68,7 +68,7 @@ and behaves as expected before scaling up to the full experimental setting.
 
 ---
 
-## Loss Weight Sensitivity Analysis (Stage 1)
+## 🔬 Loss Weight Sensitivity Analysis (Stage 1)
 
 In the original SiNSR paper, the training objective is defined as a weighted sum of
 three loss terms: inversion loss (L_inverse), distillation loss (L_distill), and
